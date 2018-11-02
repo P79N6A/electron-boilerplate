@@ -1,3 +1,45 @@
+## Usage
+
+```bash
+# 安装项目
+./npm_install.sh
+# 运行项目
+npm start
+```
+
+
+
+## 注意事项
+
+electron终端：node-pty结合xterm的时候 打开终端的例子
+	例子地址：
+		https://github.com/Microsoft/node-pty/tree/master/examples/electron
+		官网例子：https://www.npmjs.com/package/node-pty
+
+	bug0(最重要的bug): ********node-pty一直在报错 安装不上去：
+	      	1.一定要结合npm_install.sh 
+	      	2.去掉所有代理
+		   	npm config set proxy null
+		   	npm config set https-proxy null
+	      	3.再加上个人热点才能正确安装 否则node-pty会报错
+		4.node-pty 和 xterm要安装在例子的子目录的app里的package.json里 要不然会报错
+
+	bug1：前期安装东西的时候 可能要把所有的tm内外网代理全部去掉 用个人热点去安装依赖：
+		npm config set proxy null
+		npm config set https-proxy null
+
+		用个人热点去安装依赖
+
+	bug2：打开终端 所有的node找不到命令 是因为shell它指定错了
+		把const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];这行改成下面即可
+		var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
+		
+	
+
+
+
+
+
 <div align="center">
 <br>
 <img src="https://user-images.githubusercontent.com/12294525/44203609-77d50800-a147-11e8-98f0-f2403527abdc.png" width="600px" />
