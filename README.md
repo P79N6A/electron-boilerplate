@@ -1,3 +1,63 @@
+## Usage
+
+```bash
+# 安装项目
+#去除所有腾讯内网代理
+npm config set proxy null
+npm config set https-proxy null
+
+#打开个人热点 执行下面sh
+./npm_install.sh
+```
+
+```bash
+# 运行项目
+npm dev
+```
+
+```bash
+#打包编译
+npm run package-all
+```
+
+## 注意事项
+
+1.electron 终端：node-pty 结合 xterm 的时候 打开终端的例子
+例子地址：
+https://github.com/Microsoft/node-pty/tree/master/examples/electron
+官网例子：https://www.npmjs.com/package/node-pty
+
+    bug0(最重要的bug): ********node-pty一直在报错 安装不上去：
+          	1.一定要结合npm_install.sh
+          	2.去掉所有代理
+    	   	npm config set proxy null
+    	   	npm config set https-proxy null
+          	3.再加上个人热点才能正确安装 否则node-pty会报错
+    	4.node-pty 和 xterm要安装在例子的子目录的app里的package.json里 要不然会报错
+
+    bug1：前期安装东西的时候 可能要把所有的tm内外网代理全部去掉 用个人热点去安装依赖：
+    	npm config set proxy null
+    	npm config set https-proxy null
+
+    	用个人热点去安装依赖
+
+    bug2：打开终端 所有的node找不到命令 是因为shell它指定错了
+    	把const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];这行改成下面即可
+    	var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
+
+2.想要加全局样式或者直接引入 css 的方法： 1.将 css 放入 app.global.css 文件里
+2.app.global.css 文件里加入 @import "~xterm/dist/xterm.css";
+
+3.electron-react-boilerplate 脚手架参考的https://github.com/electron-react-boilerplate/electron-react-boilerplate
+
+4.xterm 和 node-pty 要安装在 app 文件夹下的 package.json 而不是外层的项目 package.json
+
+5.打包编译的时候 npm run package 和 npm run package-all 的时候 要代理到外网 leah proxy 才能打包 否则会报错
+问题参考https://github.com/electron-userland/electron-builder/issues/3217
+去~/Library/Caches/electron/下 把 electron 的 zip 包删掉 然后重新 npm run package 和 npm run package-all 一下 electron-builder 会自动再下载对应的 electron 的 zip 包
+
+    注意 清除所有代理 + 开启个人热点 没有用 只能用leah proxy
+
 <div align="center">
 <br>
 <img src="https://user-images.githubusercontent.com/12294525/44203609-77d50800-a147-11e8-98f0-f2403527abdc.png" width="600px" />
@@ -212,7 +272,6 @@ git pull upstream master
 - [Amila Welihinda](https://github.com/amilajack)
 - [C. T. Lin](https://github.com/chentsulin)
 - [Jhen-Jie Hong](https://github.com/jhen0409)
-
 
 ## Backers
 

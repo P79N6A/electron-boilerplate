@@ -62,10 +62,15 @@ app.on('ready', async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    resizable: false,
+    // resizable: false,//是否允许拖拽改变窗口大小
     width: 1024,
     height: 728
   });
+
+   // Open the DevTools.
+   if ( process.env.NODE_ENV === 'development' ) {
+    mainWindow.webContents.openDevTools()
+   }
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
