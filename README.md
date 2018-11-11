@@ -12,7 +12,7 @@ npm config set https-proxy null
 
 ```bash
 # 运行项目
-npm dev
+npm run dev
 ```
 
 ```bash
@@ -21,6 +21,9 @@ npm run package-all
 ```
 
 ## 注意事项
+
+
+0.用node-pty-prebuilt去替代node-pty 可以省很多的事
 
 1.electron 终端：node-pty 结合 xterm 的时候 打开终端的例子
 例子地址：
@@ -47,10 +50,13 @@ https://github.com/Microsoft/node-pty/tree/master/examples/electron
 
 	bug3:windows上更新electron-updater后就可以编译打包electron-react-boilerplate了 执行的是npm run package本地打包
 
-	bug4:下面文章说 electron是被墙了 所以需要翻墙 才能安装
+	bug4:下面文章说 electron是被墙了 所以需要翻墙 才能安装   打包编译的时候 所需要下载的文件也需要翻墙
 			https://ystyle.top/2017/02/27/electron-react-boilerplate-kai-huan-jing-da-jian/
 
-
+			翻墙后下载的文件的路劲：
+					Linux: $XDG_CACHE_HOME or ~/.cache/electron/
+					MacOS: ~/Library/Caches/electron/
+					Windows: $LOCALAPPDATA/electron/Cache or ~/AppData/Local/electron/Cache/
 
 2.想要加全局样式或者直接引入 css 的方法： 1.将 css 放入 app.global.css 文件里
 2.app.global.css 文件里加入 @import "~xterm/dist/xterm.css";

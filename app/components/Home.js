@@ -6,7 +6,7 @@ import styles from './Home.css';
 import * as fit from 'xterm/lib/addons/fit/fit';
 
 let os = require('os');
-let pty = require('node-pty');
+let pty = require('node-pty-prebuilt');
 let Terminal = require('xterm').Terminal;
 
 Terminal.applyAddon(fit);
