@@ -45,6 +45,13 @@ https://github.com/Microsoft/node-pty/tree/master/examples/electron
     	把const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];这行改成下面即可
     	var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
 
+	bug3:windows上更新electron-updater后就可以编译打包electron-react-boilerplate了 执行的是npm run package本地打包
+
+	bug4:下面文章说 electron是被墙了 所以需要翻墙 才能安装
+			https://ystyle.top/2017/02/27/electron-react-boilerplate-kai-huan-jing-da-jian/
+
+
+
 2.想要加全局样式或者直接引入 css 的方法： 1.将 css 放入 app.global.css 文件里
 2.app.global.css 文件里加入 @import "~xterm/dist/xterm.css";
 
@@ -57,6 +64,10 @@ https://github.com/Microsoft/node-pty/tree/master/examples/electron
 去~/Library/Caches/electron/下 把 electron 的 zip 包删掉 然后重新 npm run package 和 npm run package-all 一下 electron-builder 会自动再下载对应的 electron 的 zip 包
 
     注意 清除所有代理 + 开启个人热点 没有用 只能用leah proxy
+
+
+6.git commit -m "conflict" --no-verify
+
 
 <div align="center">
 <br>
