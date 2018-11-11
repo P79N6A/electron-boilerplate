@@ -1,42 +1,71 @@
 ## Usage
 
-```bash
-# 安装项目
-#去除所有腾讯内网代理
-npm config set proxy null
-npm config set https-proxy null
+	1.mac上安装:
+		git clone 项目地址
+		leah proxy #代理网络到外网环境 使用npm 因为tnpm用不了 会报错
+		顶层：npm i 
+		内层：不用执行
 
-#打开个人热点 执行下面sh
-./npm_install.sh
-```
+	2.windows上安装：
+		git clone 项目地址
+		leah proxy
+		第一次安装可能会缺少python模块：
+			npm install --global --production windows-build-tools 				
+		项目顶层目录 ：npm i
 
-```bash
-# 运行项目
-npm run dev
-```
 
-```bash
-#打包编译
-npm run package-all
-```
+	3.编译:
+		mac:
+			翻墙：编译的时候一定要翻墙  因为electron-builder要翻墙下载一些包才可以
+			执行npm run package
+		windows:
+			翻墙
+			打包编译的时候 不能用中文路径名 否则windows打包编译的时候会报错
+			执行npm run package
+
+	4.tnpm用不了 会报错
+
+
+
+
+
 
 ## 注意事项
+1.用node-pty-prebuilt去替代node-pty 可以省很多的事
+
+2.打包编译的时候 不能用中文路径名 否则windows打包编译的时候会报错
+
+3.git commit -m "conflict" --no-verify
+
+4.打包编译的时候要翻墙
+
+
+## old
 
 
 0.用node-pty-prebuilt去替代node-pty 可以省很多的事
+
+1.打包编译的时候 不能用中文路径名 否则windows打包编译的时候会报错
+
+
 
 1.electron 终端：node-pty 结合 xterm 的时候 打开终端的例子
 例子地址：
 https://github.com/Microsoft/node-pty/tree/master/examples/electron
 官网例子：https://www.npmjs.com/package/node-pty
 
+	bug-1（最重要的bug）：用node-pty-prebuilt去代替node-pty这个包
+
     bug0(最重要的bug): ********node-pty一直在报错 安装不上去：
+			0：（可以先试一下这个方法 再去试下面的方法）用node-pty-prebuilt去代替项目中的node-pty这个包
+
+
           	1.一定要结合npm_install.sh
           	2.去掉所有代理
     	   	npm config set proxy null
     	   	npm config set https-proxy null
           	3.再加上个人热点才能正确安装 否则node-pty会报错
-    	4.node-pty 和 xterm要安装在例子的子目录的app里的package.json里 要不然会报错
+    		4.node-pty 和 xterm要安装在例子的子目录的app里的package.json里 要不然会报错
 
     bug1：前期安装东西的时候 可能要把所有的tm内外网代理全部去掉 用个人热点去安装依赖：
     	npm config set proxy null
@@ -57,6 +86,12 @@ https://github.com/Microsoft/node-pty/tree/master/examples/electron
 					Linux: $XDG_CACHE_HOME or ~/.cache/electron/
 					MacOS: ~/Library/Caches/electron/
 					Windows: $LOCALAPPDATA/electron/Cache or ~/AppData/Local/electron/Cache/
+
+	bug5：打包编译：
+		mac打包mac  windows下去打包windows
+		翻墙
+		不能有中文路径
+
 
 2.想要加全局样式或者直接引入 css 的方法： 1.将 css 放入 app.global.css 文件里
 2.app.global.css 文件里加入 @import "~xterm/dist/xterm.css";
