@@ -11,7 +11,9 @@ let Terminal = require('xterm').Terminal;
 
 Terminal.applyAddon(fit);
 
-let shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
+// let shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';//本地调试用这个
+const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];//线上用这个
+
 const ptyProcess = pty.spawn(shell, [], {
   name: 'xterm-color',
   cols: 80,

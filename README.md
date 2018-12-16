@@ -1,10 +1,21 @@
 ## Usage
 
+	0.终端选择：
+		本地调试用这个：let shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
+		线上用这个：const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
+
 	1.mac上安装:
 		git clone 项目地址
 		leah proxy #代理网络到外网环境 使用npm 因为tnpm用不了 会报错
 		顶层：npm i 
 		内层：不用执行
+
+		不要用yarn安装 用npm
+
+		npm安装的时候可能会报错 要设置一下仓库
+				npm config set registry "https://registry.npmjs.org"
+
+	2.本地运行用npm run dev  而不要用npm run start
 
 	2.windows上安装：
 		git clone 项目地址
@@ -38,6 +49,8 @@
 3.git commit -m "conflict" --no-verify
 
 4.打包编译的时候要翻墙
+
+
 
 
 ## old
