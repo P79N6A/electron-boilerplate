@@ -7,13 +7,13 @@
 	1.mac上安装:
 		git clone 项目地址
 		leah proxy #代理网络到外网环境 使用npm 因为tnpm用不了 会报错
+		要设置一下仓库
+				npm config set registry "https://registry.npmjs.org"
 		顶层：npm i 
 		内层：不用执行
 
-		不要用yarn安装 用npm
+		不要用yarn和tnpm安装 用npm
 
-		npm安装的时候可能会报错 要设置一下仓库
-				npm config set registry "https://registry.npmjs.org"
 
 	2.本地运行用npm run dev  而不要用npm run start
 

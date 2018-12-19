@@ -11,7 +11,7 @@ let Terminal = require('xterm').Terminal;
 
 Terminal.applyAddon(fit);
 
-// let shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';//本地调试用这个
+// const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';//本地调试用这个
 const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];//线上用这个
 
 const ptyProcess = pty.spawn(shell, [], {
@@ -51,13 +51,6 @@ export default class Home extends Component<Props> {
       xterm.write(data);
     });
     xterm.fit();
-
-    setTimeout(() => {
-      //隐藏掉自动多余出来的textarea 是个bug
-      // document.getElementsByClassName("xterm-helpers")[0].style.opacity = 0;
-      //解决内容输出超过一屏的时候的分屏bug
-      // document.getElementsByClassName("xterm-viewport")[0].style.display = 'none';
-    }, 300);
   }
 
   render() {

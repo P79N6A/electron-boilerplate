@@ -15,7 +15,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "node-pty-prebuilt": "^0.7.6",
-    "xterm": "^3.8.0"
+    "node-pty-prebuilt": "0.7.6",
+    "xterm": "3.8.0"
   }
 }
