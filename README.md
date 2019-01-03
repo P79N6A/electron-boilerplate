@@ -14,8 +14,8 @@
 
 		不要用yarn和tnpm安装 用npm
 
-
 	2.本地运行用npm run dev  而不要用npm run start
+		npm run start是查看线上环境时候的app样子
 
 	2.windows上安装：
 		git clone 项目地址
@@ -26,6 +26,7 @@
 
 
 	3.编译:
+		mac和windows要分别运行npm run package
 		mac:
 			翻墙：编译的时候一定要翻墙  因为electron-builder要翻墙下载一些包才可以
 			执行npm run package
@@ -36,6 +37,7 @@
 
 	4.tnpm用不了 会报错
 
+	5.本地运行后 如果修改逻辑后不刷新 就直接command + r
 
 
 
