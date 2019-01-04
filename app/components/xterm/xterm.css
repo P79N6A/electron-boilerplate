@@ -1,0 +1,35 @@
+.container {
+  /* position: absolute;
+  left: 200px;
+  top: 30px;
+   */
+  /* border: 1px solid red; */
+  text-align: center;
+}
+
+.container h2 {
+  font-size: 3rem;
+}
+
+.container a {
+  font-size: 1.4rem;
+}
+
+.btn_css {
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 110px;
+}
+
+.logo {
+  font-size: 24px;
+  text-align: center;
+  width: 85px;
+  background-color: rgb(38, 38, 38);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  height: 50px;
+  line-height: 50px;
+}
