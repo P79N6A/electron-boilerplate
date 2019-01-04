@@ -108,6 +108,48 @@ export default class Xterm extends Component<Props> {
           >
             自动发布
           </Button>
+          <Button
+            type="primary"
+            className={styles.btn_css}
+            onClick={this.clickHandle}
+          >
+            创建项目
+          </Button>
+          <Button
+            type="primary"
+            className={styles.btn_css}
+            onClick={this.clickHandle}
+          >
+            创建页面
+          </Button>
+          <Button
+            type="primary"
+            className={styles.btn_css}
+            onClick={this.clickHandle}
+          >
+            代理网络
+          </Button>
+          <Button
+            type="primary"
+            className={styles.btn_css}
+            onClick={this.clickHandle}
+          >
+            自动切图
+          </Button>
+          <Button
+            type="primary"
+            className={styles.btn_css}
+            onClick={this.clickHandle}
+          >
+            创建目录
+          </Button>
+          <Button
+            type="primary"
+            className={styles.btn_css}
+            onClick={this.clickHandle}
+          >
+            自动发布
+          </Button>
         </div>
       </div>
     );
