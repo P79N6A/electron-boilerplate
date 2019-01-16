@@ -32,9 +32,9 @@ export default class Home extends Component<Props> {
             <TabPane tab={<Icon type="box-plot" />} key="3">
               <Electron/>
             </TabPane>
-            <TabPane tab={<Icon type="area-chart" />} key="4">
+            {/* <TabPane tab={<Icon type="area-chart" />} key="4">
               <Template/>
-            </TabPane>
+            </TabPane> */}
             
           </Tabs>
         </div>

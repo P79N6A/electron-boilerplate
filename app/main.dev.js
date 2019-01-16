@@ -98,3 +98,18 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 });
+
+
+
+import { ipcMain, dialog } from 'electron';
+
+ipcMain.on('send-msg', (event, arg) => {
+  console.log('主进程收到的消息为：' + arg );
+  event.sender.send('reply-msg', '你好渲染进程');
+});
+
+ipcMain.on('select-file-main', (event, arg) => {
+  dialog.showOpenDialog({ properties: ['openFile', 'openDirectory'] }, (filename) => {
+    event.sender.send('reply-msg', filename[0]);
+  })
+});

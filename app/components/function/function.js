@@ -19,7 +19,7 @@ export default class Function extends Component<Props> {
 
   handleFsExtra = async () => {
     //判断某个目录和文件是否存在
-    let exist = await fs.pathExists('/Users/airuikun/Desktop/project/technology/electron-1/bb');
+    let exist = await fs.pathExists('/Users/airuikun/Desktop/project/technology/electron-1/bb.txt');
     message.success(exist.toString());
   }
 
