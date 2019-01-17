@@ -62,7 +62,7 @@ app.on('ready', async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    resizable: false,//是否允许拖拽改变窗口大小 设置为false 这样所有的元素都是正常大小 要不然会被缩小和改变
+    // resizable: false,//是否允许拖拽改变窗口大小 设置为false 这样所有的元素都是正常大小 要不然会被缩小和改变
     width: 1024,
     height: 768
   });
