@@ -62,7 +62,7 @@
 			} else {
 				ppath = path.join(app.getAppPath(), 'assets/test.txt');
 			}
-
+	7.全局样式在app.global.css里面放 重写antd的样式css也放在里面
 
 
 ## 注意事项

@@ -19,23 +19,46 @@ export default class Home extends Component<Props> {
 
   render() {
     return (
-      <div className="">
+      <div className="home_wrap">
         <div className="">
           <div className={styles.logo}>LEAH</div>
-          <Tabs defaultActiveKey="2" tabPosition={'left'}>
-            <TabPane tab={<Icon type="radar-chart" />} key="1">
+          <Tabs defaultActiveKey="1" tabPosition={'left'}>
+            <TabPane
+              tab={
+                <div className="">
+                  <Icon type="radar-chart" />
+                  <div className={styles.icon_st1}>终端</div>
+                </div>
+              }
+              key="1"
+            >
               <Xterm />
             </TabPane>
-            <TabPane tab={<Icon type="switcher" />} key="2">
+            <TabPane
+              tab={
+                <div className="">
+                  <Icon type="switcher" />
+                  <div className={styles.icon_st2}>node</div>
+                </div>
+              }
+              key="2"
+            >
               <Function />
             </TabPane>
-            <TabPane tab={<Icon type="box-plot" />} key="3">
-              <Electron/>
+            <TabPane
+              tab={
+                <div className="">
+                  <Icon type="box-plot" />
+                  <div className={styles.icon_st3}>elec</div>
+                </div>
+              }
+              key="3"
+            >
+              <Electron />
             </TabPane>
             {/* <TabPane tab={<Icon type="area-chart" />} key="4">
               <Template/>
             </TabPane> */}
-            
           </Tabs>
         </div>
       </div>

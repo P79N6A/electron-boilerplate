@@ -10,3 +10,21 @@
   height: 50px;
   line-height: 50px;
 }
+
+.icon_st1 {
+  font-size: 12px;
+  text-align: left;
+  padding-left: 3px;
+}
+
+.icon_st2 {
+  font-size: 12px;
+  text-align: left;
+  padding-left: 1px;
+}
+
+.icon_st3 {
+  font-size: 12px;
+  text-align: left;
+  padding-left: 3px;
+}

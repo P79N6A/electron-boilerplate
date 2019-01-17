@@ -22,7 +22,7 @@ const ptyProcess = pty.spawn(shell, [], {
 });
 const xterm = new Terminal({
   cols: 80,
-  rows: 30,
+  rows: 25,
   cursorBlink: 5,
   tabStopWidth: 4,
   scrollback: 1000,
@@ -37,10 +37,14 @@ export default class Xterm extends Component<Props> {
   props: Props;
 
   componentDidMount() {
-    //加上setTimeout为了解决dev环境下大小没法控制的bug
-    setTimeout(() => {
+    if (  process.env.NODE_ENV == 'development' ) {
+      //加上setTimeout为了解决dev环境下大小没法控制的bug
+      setTimeout(() => {
+        this.initTerminal();
+      }, 10);
+    } else {
       this.initTerminal();
-    }, 10);
+    }
   }
 
   initTerminal() {
