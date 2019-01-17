@@ -27,13 +27,23 @@
 
 	3.编译:
 		mac和windows要分别运行npm run package
+
 		mac:
 			翻墙：编译的时候一定要翻墙  因为electron-builder要翻墙下载一些包才可以
 			执行npm run package
+
 		windows:
 			翻墙
 			打包编译的时候 不能用中文路径名 否则windows打包编译的时候会报错
 			执行npm run package
+
+
+
+		在mac上打包编译windows项目
+			leah proxy
+			npm run package-win
+				会报错 但是会在release里出现一个exe  这个包是可用的 发到windows机器上可以用
+				使用完npm run package-win后 再npm run dev就会报错了 这时候再在mac上执行npm run package后mac就恢复了
 
 	4.tnpm用不了 会报错
 
@@ -62,7 +72,7 @@
 
 3.git commit -m "conflict" --no-verify
 
-4.打包编译的时候要翻墙
+4.打包编译的时候要翻墙  leah proxy
 
 
 
