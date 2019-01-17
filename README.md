@@ -15,7 +15,7 @@
 		不要用yarn和tnpm安装 用npm
 
 	2.本地运行用npm run dev  而不要用npm run start
-		npm run start是查看线上环境时候的app样子
+		npm run start是查看线上环境时候的app样子 但也不是绝对的线上的模样 因为静态资源文件path还是有问题 要用npm run package才是真正的线上包
 
 	2.windows上安装：
 		git clone 项目地址
@@ -39,7 +39,19 @@
 
 	5.本地运行后 如果修改逻辑后不刷新 就直接command + r
 
+	6.electron路径管理和fs.readFile读取文件的path
 
+		package.json里的build的files里要添加"assets/"
+
+		所有的静态资源文件都放在项目的/app/assets/里
+
+		代码中操作如下：
+			let ppath;
+			if (  process.env.NODE_ENV == 'development' ) {
+				ppath = path.join(__dirname, '/assets/test.txt')
+			} else {
+				ppath = path.join(app.getAppPath(), 'assets/test.txt');
+			}
 
 
 

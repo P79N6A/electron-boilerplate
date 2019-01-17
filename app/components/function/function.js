@@ -6,6 +6,14 @@ import shell from 'shelljs'
 import { exec } from 'child_process'
 import fs from 'fs-extra'
 import util from 'util'
+import path from 'path';
+import ii from '../../assets/ilogo.png'
+
+import { remote } from 'electron';
+
+const app = remote.app;
+const dialog = remote.dialog;
+
 
 
 type Props = {};
@@ -38,6 +46,30 @@ export default class Function extends Component<Props> {
   handleExec = async () => {
     const execPromise = util.promisify(exec);
     await execPromise('open .');
+  }
+
+  testPath = () => {
+    
+    let ppath;
+    if (  process.env.NODE_ENV == 'development' ) {
+      ppath = path.join(__dirname, '/assets/test.txt')
+    } else {
+      ppath = path.join(app.getAppPath(), 'assets/test.txt');
+    }
+
+    fs.readFile(ppath, (err, data) => {
+      if ( err ) {
+        message.error(err.toString());
+        return;
+      }
+
+      message.info(ppath);
+      message.success(data.toString());
+    });
+  }
+
+  nodeEnv = () => {
+    message.success(process.env.NODE_ENV);
   }
 
   render() {
@@ -74,6 +106,20 @@ export default class Function extends Component<Props> {
             onClick={this.handleExec}
           >
             child_process.exec
+          </Button>
+          <Button
+            type="primary"
+            className={styles.btn_css}
+            onClick={this.nodeEnv}
+          >
+            环境变量NODE_ENV
+          </Button>
+          <Button
+            type="primary"
+            className={styles.btn_css}
+            onClick={this.testPath}
+          >
+            测试打包编译后的路径<img src={ii} />
           </Button>
           
         </div>

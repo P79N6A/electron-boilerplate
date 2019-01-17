@@ -92,6 +92,8 @@ export default class Electron extends Component<Props> {
       message: a + b + c
     };
     dialog.showMessageBox(options);
+
+    console.log(a + b + c);
   };
 
   capture = () => {
@@ -132,12 +134,12 @@ export default class Electron extends Component<Props> {
 
   };
 
-  testPath = () => {
-    const testP = path.join(__dirname, '/assets/test.txt')
-    fs.readFile(testP, (err, data) => {
-      message.success(data.toString());
-    });
-  }
+  // testPath = () => {
+  //   const testP = path.join(__dirname, '/assets/test.txt')
+  //   fs.readFile(testP, (err, data) => {
+  //     message.success(data.toString());
+  //   });
+  // }
 
   render() {
     return (
@@ -209,13 +211,13 @@ export default class Electron extends Component<Props> {
           >
             获取系统信息
           </Button>
-          <Button
+          {/* <Button
             type="primary"
             className={styles.btn_css}
             onClick={this.testPath}
           >
             测试打包编译后的路径
-          </Button>
+          </Button> */}
           <Button
             type="primary"
             className={styles.btn_css}

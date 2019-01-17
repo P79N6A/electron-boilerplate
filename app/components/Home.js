@@ -22,7 +22,7 @@ export default class Home extends Component<Props> {
       <div className="">
         <div className="">
           <div className={styles.logo}>LEAH</div>
-          <Tabs defaultActiveKey="3" tabPosition={'left'}>
+          <Tabs defaultActiveKey="2" tabPosition={'left'}>
             <TabPane tab={<Icon type="radar-chart" />} key="1">
               <Xterm />
             </TabPane>
