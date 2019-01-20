@@ -2,11 +2,20 @@
 import React, { Component } from 'react';
 import styles from './xterm.css';
 import * as fit from 'xterm/lib/addons/fit/fit';
-import { Button, Icon, Select, Row, Col, Tabs } from 'antd';
+import { Button, Icon, Select, Row, Col, Tabs, message } from 'antd';
+import fs from 'fs-extra';
+import os from 'os';
+import delay from 'delay';
+import path from 'path';
+import { Terminal } from 'xterm';
 
-let os = require('os');
-let pty = require('node-pty-prebuilt');
-let Terminal = require('xterm').Terminal;
+import * as pty from 'node-pty-prebuilt';
+
+// const pty = require('node-pty-prebuilt');
+
+const isWin = os.platform() === 'win32' ? true : false;
+const homedir = os.homedir();
+const tmpdir = os.tmpdir();
 
 Terminal.applyAddon(fit);
 
@@ -45,6 +54,11 @@ export default class Xterm extends Component<Props> {
     } else {
       this.initTerminal();
     }
+
+    //自动对焦
+    setTimeout(()=>{
+      xterm.focus();
+    }, 1000);
   }
 
   initTerminal() {
@@ -52,7 +66,7 @@ export default class Xterm extends Component<Props> {
     xterm.on('data', data => {
       ptyProcess.write(data);
     });
-    ptyProcess.on('data', function(data) {
+    ptyProcess.on('data', (data) => {
       xterm.write(data);
     });
     xterm.fit();
@@ -60,7 +74,20 @@ export default class Xterm extends Component<Props> {
 
   clickHandle = () => {
     console.log('click');
-  };
+  }
+
+  clickOperator = async () => {
+    let tmpPath = path.join(tmpdir, 'tmp.txt');
+    //用shell获取路径 打入tmp.txt文件 解决pty.on('data')乱码不确定性问题  适配win和mac
+    if ( isWin ) {
+      ptyProcess.write(`echo %cd% > ${tmpPath}\r`);//windows
+    } else {
+      ptyProcess.write(`pwd > ${tmpPath}\r`);//mac
+    }
+    await delay(300);
+    let realPath = await fs.readFileSync(tmpPath)
+    message.success('realPath' + realPath.toString());
+  }
 
   render() {
     return (
@@ -70,6 +97,13 @@ export default class Xterm extends Component<Props> {
           <div className="" ref="xterm" />
         </div>
         <div className="">
+          <Button
+            type="primary"
+            className={styles.btn_css}
+            onClick={this.clickOperator}
+          >
+            获取terminal的当前路径
+          </Button>
           <Button
             type="primary"
             className={styles.btn_css}
@@ -159,3 +193,126 @@ export default class Xterm extends Component<Props> {
     );
   }
 }
+
+
+
+
+
+
+
+// //解决中文乱码的问题： https://github.com/tsl0922/ttyd/blob/1.3.3/html/js/utf8.js
+// let UTF8Decoder = function() {
+//   this.bytesLeft = 0;
+//   this.codePoint = 0;
+//   this.lowerBound = 0;
+// };
+
+// UTF8Decoder.prototype.decode = function(str) {
+//   var ret = '';
+//   for (var i = 0; i < str.length; i++) {
+//       var c = str.charCodeAt(i);
+//       if (this.bytesLeft == 0) {
+//           if (c <= 0x7F) {
+//               ret += str.charAt(i);
+//           } else if (0xC0 <= c && c <= 0xDF) {
+//               this.codePoint = c - 0xC0;
+//               this.bytesLeft = 1;
+//               this.lowerBound = 0x80;
+//           } else if (0xE0 <= c && c <= 0xEF) {
+//               this.codePoint = c - 0xE0;
+//               this.bytesLeft = 2;
+//               this.lowerBound = 0x800;
+//           } else if (0xF0 <= c && c <= 0xF7) {
+//               this.codePoint = c - 0xF0;
+//               this.bytesLeft = 3;
+//               this.lowerBound = 0x10000;
+//           } else if (0xF8 <= c && c <= 0xFB) {
+//               this.codePoint = c - 0xF8;
+//               this.bytesLeft = 4;
+//               this.lowerBound = 0x200000;
+//           } else if (0xFC <= c && c <= 0xFD) {
+//               this.codePoint = c - 0xFC;
+//               this.bytesLeft = 5;
+//               this.lowerBound = 0x4000000;
+//           } else {
+//               ret += '\ufffd';
+//           }
+//       } else {
+//           if (0x80 <= c && c <= 0xBF) {
+//               this.bytesLeft--;
+//               this.codePoint = (this.codePoint << 6) + (c - 0x80);
+//               if (this.bytesLeft == 0) {
+//                   var codePoint = this.codePoint;
+//                   if (codePoint < this.lowerBound
+//                       || (0xD800 <= codePoint && codePoint <= 0xDFFF)
+//                       || codePoint > 0x10FFFF) {
+//                       ret += '\ufffd';
+//                   } else {
+//                       if (codePoint < 0x10000) {
+//                           ret += String.fromCharCode(codePoint);
+//                       } else {
+//                           codePoint -= 0x10000;
+//                           ret += String.fromCharCode(
+//                               0xD800 + ((codePoint >>> 10) & 0x3FF),
+//                               0xDC00 + (codePoint & 0x3FF));
+//                       }
+//                   }
+//               }
+//           } else {
+//               ret += '\ufffd';
+//               this.bytesLeft = 0;
+//               i--;
+//           }
+//       }
+//   }
+//   return ret;
+// };
+
+// Terminal.prototype.decodeUTF8 = function(str) {
+//   return (new UTF8Decoder()).decode(str);
+// };
+
+// Terminal.prototype.encodeUTF8 = function(str) {
+//   var ret = '';
+//   for (var i = 0; i < str.length; i++) {
+//       var c = str.charCodeAt(i);
+//       if (0xDC00 <= c && c <= 0xDFFF) {
+//           c = 0xFFFD;
+//       } else if (0xD800 <= c && c <= 0xDBFF) {
+//           if (i+1 < str.length) {
+//               var d = str.charCodeAt(i+1);
+//               if (0xDC00 <= d && d <= 0xDFFF) {
+//                   c = 0x10000 + ((c & 0x3FF) << 10) + (d & 0x3FF);
+//                   i++;
+//               } else {
+//                   c = 0xFFFD;
+//               }
+//           } else {
+//               c = 0xFFFD;
+//           }
+//       }
+//       var bytesLeft;
+//       if (c <= 0x7F) {
+//           ret += str.charAt(i);
+//           continue;
+//       } else if (c <= 0x7FF) {
+//           ret += String.fromCharCode(0xC0 | (c >>> 6));
+//           bytesLeft = 1;
+//       } else if (c <= 0xFFFF) {
+//           ret += String.fromCharCode(0xE0 | (c >>> 12));
+//           bytesLeft = 2;
+//       } else {
+//           ret += String.fromCharCode(0xF0 | (c >>> 18));
+//           bytesLeft = 3;
+//       }
+//       while (bytesLeft > 0) {
+//           bytesLeft--;
+//           ret += String.fromCharCode(0x80 | ((c >>> (6 * bytesLeft)) & 0x3F));
+//       }
+//   }
+//   return ret;
+// };
+
+// Terminal.prototype.writeUTF8 = function (str) {
+//   this.write(this.decodeUTF8(str));
+// };

@@ -239,10 +239,12 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.2.0",
     "antd": "3.11.2",
+    "delay": "^4.1.0",
     "devtron": "1.4.0",
     "electron-debug": "2.0.0",
     "fs-extra": "7.0.1",
     "history": "4.7.2",
+    "iconv-lite": "^0.4.24",
     "react": "16.4.1",
     "react-dom": "16.4.1",
     "react-hot-loader": "4.3.4",
