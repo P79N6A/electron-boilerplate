@@ -46,8 +46,9 @@ export default class Xterm extends Component<Props> {
   props: Props;
 
   componentDidMount() {
+
     if (  process.env.NODE_ENV == 'development' ) {
-      //加上setTimeout为了解决dev环境下大小没法控制的bug
+      //加上setTimeout为了解决dev环境下大小没法控制的bug 线上环境不用
       setTimeout(() => {
         this.initTerminal();
       }, 10);
@@ -55,9 +56,18 @@ export default class Xterm extends Component<Props> {
       this.initTerminal();
     }
 
-    //自动对焦
+    //hack各种问题
     setTimeout(()=>{
+      //自动对焦
       xterm.focus();
+
+      //解决编译打包后 mac的中文乱码问题 mmp
+      if ( isWin ) {
+        // ptyProcess.write(`echo %cd% > ${tmpPath}\r`);//windows
+      } else {
+        ptyProcess.write(`export LC_ALL=zh_CN.UTF-8\r`);//mac
+        ptyProcess.write(`clear\r`);//mac
+      }
     }, 1000);
   }
 
@@ -77,6 +87,10 @@ export default class Xterm extends Component<Props> {
   }
 
   clickOperator = async () => {
+    message.success(os.homedir());
+  }
+
+  gotoPath = async () => {
     let tmpPath = path.join(tmpdir, 'tmp.txt');
     //用shell获取路径 打入tmp.txt文件 解决pty.on('data')乱码不确定性问题  适配win和mac
     if ( isWin ) {
@@ -100,16 +114,16 @@ export default class Xterm extends Component<Props> {
           <Button
             type="primary"
             className={styles.btn_css}
-            onClick={this.clickOperator}
+            onClick={this.gotoPath}
           >
             获取terminal的当前路径
           </Button>
           <Button
             type="primary"
             className={styles.btn_css}
-            onClick={this.clickHandle}
+            onClick={this.clickOperator}
           >
-            创建项目
+            操作
           </Button>
           <Button
             type="primary"
