@@ -8,10 +8,7 @@ import os from 'os';
 import delay from 'delay';
 import path from 'path';
 import { Terminal } from 'xterm';
-
 import * as pty from 'node-pty-prebuilt';
-
-// const pty = require('node-pty-prebuilt');
 
 const isWin = os.platform() === 'win32' ? true : false;
 const homedir = os.homedir();
@@ -46,7 +43,11 @@ export default class Xterm extends Component<Props> {
   props: Props;
 
   componentDidMount() {
+    //hack各种问题
+    this.hackBug();
+  }
 
+  hackBug = () => {
     if (  process.env.NODE_ENV == 'development' ) {
       //加上setTimeout为了解决dev环境下大小没法控制的bug 线上环境不用
       setTimeout(() => {
@@ -55,7 +56,6 @@ export default class Xterm extends Component<Props> {
     } else {
       this.initTerminal();
     }
-
     //hack各种问题
     setTimeout(()=>{
       //自动对焦
@@ -63,7 +63,8 @@ export default class Xterm extends Component<Props> {
 
       //解决编译打包后 mac的中文乱码问题 mmp
       if ( isWin ) {
-        // ptyProcess.write(`echo %cd% > ${tmpPath}\r`);//windows
+        // 兼容windows乱码问题 懒 不想弄了 mmp
+        // 问题描述：windows显示的时候支持 但是message.success的时候不支持 mmp 但是可以忍受 算是好的 因为内部实现不需要放出来看到
       } else {
         ptyProcess.write(`export LC_ALL=zh_CN.UTF-8\r`);//mac
         ptyProcess.write(`clear\r`);//mac
