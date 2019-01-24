@@ -66,7 +66,23 @@ export default class Function extends Component<Props> {
       message.info(ppath);
       message.success(data.toString());
     });
+    
   }
+
+  testTemplatePath = () => {
+    
+    let ppath;
+    if (  process.env.NODE_ENV == 'development' ) {
+      ppath = path.join(__dirname, '/assets/')
+    } else {
+      ppath = path.join(app.getAppPath(), 'assets/');
+    }
+
+    const dir = fs.readdirSync(ppath);
+    message.success(dir.toString());
+  }
+
+
 
   nodeEnv = () => {
     message.success(process.env.NODE_ENV);
@@ -120,6 +136,13 @@ export default class Function extends Component<Props> {
             onClick={this.testPath}
           >
             测试打包编译后的路径<img src={ii} />
+          </Button>
+          <Button
+            type="primary"
+            className={styles.btn_css}
+            onClick={this.testTemplatePath}
+          >
+            查看打包编译后app里文件夹结构<img src={ii} />
           </Button>
           
         </div>
