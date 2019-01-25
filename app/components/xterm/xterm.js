@@ -89,21 +89,21 @@ export default class Xterm extends Component<Props> {
     message.success(os.homedir());
   }
 
-  gotoPath = async () => {
-    let tmpPath = path.join(tmpdir, 'tmp.txt');
-    //用shell获取路径 打入tmp.txt文件 解决pty.on('data')乱码不确定性问题  适配win和mac
-    if (isWin) {
-      ptyProcess.write(`echo %cd% > ${tmpPath}\r`);//windows
-    } else {
-      ptyProcess.write(`pwd > ${tmpPath}\r`);//mac
-    }
-    await delay(300);
-    let realPath = await fs.readFileSync(tmpPath);
-    realPath = realPath.toString();
-    //刚获取到的路径字符串 最后一个字符是个换行 要去掉 
-    realPath = realPath.substring(0, realPath.length - 1);
-    message.success('realPath' + realPath);
-  }
+  // gotoPath = async () => {
+  //   let tmpPath = path.join(tmpdir, 'tmp.txt');
+  //   //用shell获取路径 打入tmp.txt文件 解决pty.on('data')乱码不确定性问题  适配win和mac
+  //   if (isWin) {
+  //     ptyProcess.write(`echo %cd% > ${tmpPath}\r`);//windows
+  //   } else {
+  //     ptyProcess.write(`pwd > ${tmpPath}\r`);//mac
+  //   }
+  //   await delay(300);
+  //   let realPath = await fs.readFileSync(tmpPath);
+  //   realPath = realPath.toString();
+  //   //刚获取到的路径字符串 最后一个字符是个换行 要去掉 
+  //   realPath = realPath.substring(0, realPath.length - 1);
+  //   message.success('realPath' + realPath);
+  // }
 
   getTernimalPath = async () => {
     let tmpPath = path.join(tmpdir, 'tmp.txt');
@@ -118,14 +118,13 @@ export default class Xterm extends Component<Props> {
     realPath = realPath.toString();
     //刚获取到的路径字符串 最后一个字符是个换行 要去掉 
     realPath = realPath.substring(0, realPath.length - 1);
-    //windows下会出现很多奇怪的字符 兼容它 盘它
+    //windows下会出现很多奇怪的字符:多出来的空格 和换行  兼容它 盘它
     if (isWin) {
-      realPath = realPath.replace(/\\/g, '/')
-      realPath = realPath.replace(/ /g, '')
+      realPath = realPath.replace(/\\/g, '/')//将windows下所有的\替换成/  要不然路径全部不对
+      realPath = realPath.replace(/ /g, '')//将windows下所有的空格去掉
       realPath = realPath.replace(/\r/g, '')
       realPath = realPath.replace(/\n/g, '')
     }
-    
     return realPath;
   }
 
@@ -156,13 +155,13 @@ export default class Xterm extends Component<Props> {
           >
             操作
           </Button>
-          <Button
+          {/* <Button
             type="primary"
             className={styles.btn_css}
             onClick={this.gotoPath}
           >
             获取terminal的当前路径
-          </Button>
+          </Button> */}
         </div>
       </div>
     );

@@ -32,7 +32,6 @@ const countListener = (gitPathFE) => {
     let counter = 0;
     let timer = setInterval(()=>{
       ++counter;
-      // console.log('轮询监听器', counter);
       //大于100秒没结束 就直接中断
       if ( counter >= 100 ) {
         setTimeout(()=>{
@@ -60,6 +59,7 @@ export default async (pathPro, nameProj, terminal) => {
     let pathSrc = path.join(gitPathFE, 'src');//项目src的目录路径 用来判断是否clone完成
     let gitSrc = path.join(distProjPath, `.git`);//项目.git的路径位置
 
+    //windows下的path.join会返回\的路径 在windows下不兼容 要替换成/
     if (isWin) {
       distProjPath = distProjPath.replace(/\\/g, '/')
       gitPathFE = gitPathFE.replace(/\\/g, '/')
@@ -98,8 +98,6 @@ export default async (pathPro, nameProj, terminal) => {
       //安装依赖
       terminal.write(`tnpm i\r`);
     }
-
-
 
 
 
