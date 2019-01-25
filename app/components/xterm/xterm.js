@@ -123,7 +123,7 @@ export default class Xterm extends Component<Props> {
 
   initProjectFE = async () => {
     let pathTerminal = await this.getTernimalPath();
-    await init_fe(pathTerminal, ptyProcess);
+    await init_fe(pathTerminal, 'FEProject', ptyProcess);
   }
 
   render() {

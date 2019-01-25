@@ -242,7 +242,7 @@
     "delay": "4.1.0",
     "devtron": "1.4.0",
     "electron-debug": "2.0.0",
-    "extract-zip": "^1.6.7",
+    "extract-zip": "1.6.7",
     "fs-extra": "7.0.1",
     "history": "4.7.2",
     "react": "16.4.1",
