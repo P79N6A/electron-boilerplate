@@ -7,7 +7,7 @@ import util from 'util';
 import { remote } from 'electron';
 // import extract from 'extract-zip';
 
-
+const isWin = os.platform() === 'win32' ? true : false;
 
 const app = remote.app;
 const dialog = remote.dialog;// dialog.showErrorBox('一条信息', assetsPath);
@@ -25,6 +25,9 @@ const getPath = () => {
 
 //轮询监听器 判断指定路径path是否存在 决定是否clone完成 将异步操作同步化
 const countListener = (gitPathFE) => {
+
+  let signTime = isWin ? 5000 : 1000;//兼容windows当git clone 完成后 没有马上结束 而是继续等待的问题
+
   return new Promise((resolve, reject)=>{
     let counter = 0;
     let timer = setInterval(()=>{
@@ -35,7 +38,7 @@ const countListener = (gitPathFE) => {
         setTimeout(()=>{
           clearInterval(timer);
           resolve(false);
-        }, 1000);
+        }, signTime);
       }
       //判断src是否存在这个目标目录 如果存在证明clone完成
       let exists = fs.pathExistsSync(gitPathFE);
@@ -43,7 +46,7 @@ const countListener = (gitPathFE) => {
         setTimeout(()=>{
           clearInterval(timer);
           resolve(true);
-        }, 1000);
+        }, signTime);
       }
     }, 1000);
   });
@@ -51,9 +54,18 @@ const countListener = (gitPathFE) => {
 
 export default async (pathPro, nameProj, terminal) => {
 
-    const REMOTE_URL = 'http://git.code.oa.com/leah/leah-react-app.git';
-    const distProjPath = path.join(pathPro, nameProj);//将脚手架文件拷贝到的路径下面 并用用户输入的项目名 新创建的文件夹路径
-    const gitPathFE = path.join(pathPro, 'leah-react-app');//从git clone下来的前端脚手架leah-react-app的文件夹路径
+    let REMOTE_URL = 'http://git.code.oa.com/leah/leah-react-app.git';
+    let distProjPath = path.join(pathPro, nameProj);//将脚手架文件拷贝到的路径下面 并用用户输入的项目名 新创建的文件夹路径
+    let gitPathFE = path.join(pathPro, 'leah-react-app');//从git clone下来的前端脚手架leah-react-app的文件夹路径
+    let pathSrc = path.join(gitPathFE, 'src');//项目src的目录路径 用来判断是否clone完成
+    let gitSrc = path.join(distProjPath, `.git`);//项目.git的路径位置
+
+    if (isWin) {
+      distProjPath = distProjPath.replace(/\\/g, '/')
+      gitPathFE = gitPathFE.replace(/\\/g, '/')
+      pathSrc = pathSrc.replace(/\\/g, '/')
+      gitSrc = gitSrc.replace(/\\/g, '/')
+    }
 
     //判断是否存在这个目标目录 是否有重名
     const exists = await fs.pathExists(distProjPath);
@@ -65,7 +77,7 @@ export default async (pathPro, nameProj, terminal) => {
     // git clone 前端项目文件 /Users/airuikun/Desktop/test
     terminal.write(`git clone ${REMOTE_URL} --depth=1\r`);
     //轮询监听器 判断src是否存在 决定是否clone完成
-    let isExist = await countListener(path.join(gitPathFE, 'src'));
+    let isExist = await countListener(pathSrc);
     if ( !isExist ) {
       dialog.showErrorBox('错误信息', '出现未知错误，请重试');
       return;
@@ -76,7 +88,7 @@ export default async (pathPro, nameProj, terminal) => {
     //增加点延时 防止异步操作未完成
     await delay(100);
     //删除脚手架项目里的.git文件
-    await fs.remove(path.join(distProjPath, `.git`));
+    await fs.remove(gitSrc);
 
     //本地dev环境没法tnpm i因为nvm的原因识别不出来tnpm 线上包没这个问题
     if (process.env.NODE_ENV !== 'development') {

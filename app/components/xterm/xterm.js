@@ -54,7 +54,7 @@ export default class Xterm extends Component<Props> {
       //加上setTimeout为了解决dev环境下大小没法控制的bug 线上环境不用
       setTimeout(() => {
         this.initTerminal();
-      }, 10);
+      }, 500);
     } else {
       this.initTerminal();
     }
@@ -118,6 +118,14 @@ export default class Xterm extends Component<Props> {
     realPath = realPath.toString();
     //刚获取到的路径字符串 最后一个字符是个换行 要去掉 
     realPath = realPath.substring(0, realPath.length - 1);
+    //windows下会出现很多奇怪的字符 兼容它 盘它
+    if (isWin) {
+      realPath = realPath.replace(/\\/g, '/')
+      realPath = realPath.replace(/ /g, '')
+      realPath = realPath.replace(/\r/g, '')
+      realPath = realPath.replace(/\n/g, '')
+    }
+    
     return realPath;
   }
 
